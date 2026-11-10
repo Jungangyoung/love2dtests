@@ -2,26 +2,25 @@ function love.load()
     fish = {}
     fish.image = love.graphics.newImage("fish.png")
     fish.fn = 5
-    fish.x = 100
-    fish.y = 100
+    fish.x, fish.y = 100, 100
     fish.angle = 0
     fish.speed = 200
     fish.offsetx = fish.image:getWidth() / (fish.fn * 2)
     fish.offsety = fish.image:getHeight() / 2
     fish.image = love.graphics.newImage("fish.png")
-    frames = {}
-    local frame_width, frame_height = fish.image:getWidth() / 5, fish.image:getHeight() 
+    fish.frames = {}
+    fish.frame_width, fish.frame_height = fish.image:getWidth() / fish.fn, fish.image:getHeight() 
     for i=0,fish.fn - 1 do
-        table.insert(frames, love.graphics.newQuad(i * frame_width, 0, frame_width, frame_height, fish.image:getWidth(), fish.image:getHeight()))
+        table.insert(fish.frames, love.graphics.newQuad(i * fish.frame_width, 0, fish.frame_width, fish.frame_height, fish.image:getWidth(), fish.image:getHeight()))
     end
-    currentFrame = 1
+    fish.currentFrame = 1
 end
 
 function love.update(dt)
     --animate the fish
-    currentFrame = currentFrame + 10 * dt
-    if currentFrame >= fish.fn then
-        currentFrame = 1
+    fish.currentFrame = fish.currentFrame + 10 * dt
+    if fish.currentFrame >= fish.fn then
+        fish.currentFrame = 1
     end
     --move the fish
     mouse_x, mouse_y = love.mouse.getPosition()
@@ -33,12 +32,11 @@ function love.update(dt)
     then
         fish.x = fish.x + fish.speed * math.cos(fish.angle) * dt
         fish.y = fish.y + fish.speed * math.sin(fish.angle) * dt
-    end
-    
+    end  
 end
 
 function love.draw()
-    love.graphics.draw(fish.image, frames[math.floor(currentFrame)], fish.x, fish.y, fish.angle, 1, 1, fish.offsetx, fish.offsety)
+    love.graphics.draw(fish.image, fish.frames[math.floor(fish.currentFrame)], fish.x, fish.y, fish.angle, 1, 1, fish.offsetx, fish.offsety)
     love.graphics.circle("fill", mouse_x, mouse_y, 7)
 end
 
