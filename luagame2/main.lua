@@ -1,8 +1,13 @@
 function love.load()
+
+    --require
+    lume = require "lume"
+
+    --basic parameters
     fish = {}
     fish.image = love.graphics.newImage("fish.png")
     fish.fn = 5
-    fish.x, fish.y = 100, 100
+    fish.x, fish.y = 350, 350
     fish.angle = 0
     fish.speed = 200
     fish.offsetx = fish.image:getWidth() / (fish.fn * 2)
@@ -14,6 +19,13 @@ function love.load()
         table.insert(fish.frames, love.graphics.newQuad(i * fish.frame_width, 0, fish.frame_width, fish.frame_height, fish.image:getWidth(), fish.image:getHeight()))
     end
     fish.currentFrame = 1
+
+    --load saved data
+    if love.filesystem.getInfo("savedata.txt") then
+        data = lume.deserialize(love.filesystem.read("savedata.txt"))
+        fish.x = data.fish.x
+        fish.y = data.fish.y
+    end
 end
 
 function love.update(dt)
@@ -38,6 +50,27 @@ end
 function love.draw()
     love.graphics.draw(fish.image, fish.frames[math.floor(fish.currentFrame)], fish.x, fish.y, fish.angle, 1, 1, fish.offsetx, fish.offsety)
     love.graphics.circle("fill", mouse_x, mouse_y, 7)
+end
+
+function love.keypressed(key)
+    if key == "f1" then
+        saveGame()
+        love.event.quit("restart")
+    elseif key == "f2" then
+        love.filesystem.remove("savedata.txt")
+        love.event.quit("restart")
+    elseif key == "escape" then
+        love.event.quit()
+    end
+end
+
+function saveGame()
+    data = {}
+    data.fish = {
+        x = fish.x,
+        y = fish.y
+    }
+    love.filesystem.write("savedata.txt", lume.serialize(data))
 end
 
 function distance(x1, y1, x2, y2)
