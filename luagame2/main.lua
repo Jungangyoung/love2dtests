@@ -42,7 +42,7 @@ function love.update(dt)
     local dist = distance(fish.x, fish.y, mouse_x, mouse_y)
     
     if dist < 500 
-    and dist > math.sqrt((fish.image:getWidth() / fish.fn) ^2 + (fish.image:getHeight()) ^2) 
+    and dist > math.sqrt((fish.image:getWidth() / fish.fn) ^2 + (fish.image:getHeight()) ^2) / 2
     then
         fish.x = fish.x + fish.speed * math.cos(fish.angle) * dt
         fish.y = fish.y + fish.speed * math.sin(fish.angle) * dt
