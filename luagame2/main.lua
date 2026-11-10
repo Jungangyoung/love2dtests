@@ -14,7 +14,6 @@ function love.load()
     fish.speed = 200
     fish.offsetx = fish.image:getWidth() / (fish.fn * 2)
     fish.offsety = fish.image:getHeight() / 2
-    fish.image = love.graphics.newImage("fish.png")
     fish.frames = {}
     fish.frame_width, fish.frame_height = fish.image:getWidth() / fish.fn, fish.image:getHeight() 
     for i=0,fish.fn - 1 do
