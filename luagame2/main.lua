@@ -1,4 +1,6 @@
 function love.load()
+    --settings
+    love.mouse.setVisible(false)
 
     --require
     lume = require "lume"
